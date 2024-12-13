@@ -7,7 +7,10 @@ public enum OutputMessage {
     MENU_RECOMMEND_HEADER(
             "메뉴 추천 결과입니다.\n"
                     + "[ 구분 | 월요일 | 화요일 | 수요일 | 목요일 | 금요일 ]"
-    );
+    ),
+    MENU_RECOMMEND_CATEGORY_ROW("카테고리"),
+    MENU_RECOMMEND_DELIMITER(" | "),
+    MENU_RECOMMEND_BRACKET("[ %s ]");
 
     private final String message;
 
