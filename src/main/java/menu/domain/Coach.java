@@ -47,4 +47,11 @@ public class Coach {
         return categories.get(recommendMenus.size());
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public List<Menu> getRecommendMenus() {
+        return recommendMenus;
+    }
 }

@@ -2,6 +2,8 @@ package menu.view;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import menu.dto.CoachDto;
+import menu.enums.Menu;
 import menu.enums.MenuCategory;
 import menu.enums.OutputMessage;
 
@@ -26,6 +28,21 @@ public class OutputView {
         print(OutputMessage.MENU_RECOMMEND_BRACKET, formatMenuCategories(menuCategories));
     }
 
+    public void printCoaches(final List<CoachDto> coachDtos) {
+        coachDtos.forEach(this::printCoach);
+    }
+
+    private void printCoach(final CoachDto coachDto) {
+        print(OutputMessage.MENU_RECOMMEND_BRACKET, formatCoaches(coachDto));
+    }
+
+    private String formatCoaches(final CoachDto coachDto) {
+        String recommendMenus = coachDto.getRecommendMenus().stream()
+                .map(Menu::getName)
+                .collect(Collectors.joining(OutputMessage.MENU_RECOMMEND_DELIMITER.toString()));
+        return formatRecommendRow(coachDto.getName(), recommendMenus);
+    }
+
     public void printMenuRecommendComplete() {
         print(OutputMessage.MENU_RECOMMEND_COMPLETE);
     }
@@ -38,12 +55,12 @@ public class OutputView {
         String menuCategory = menuCategories.stream()
                 .map(MenuCategory::getName)
                 .collect(Collectors.joining(OutputMessage.MENU_RECOMMEND_DELIMITER.toString()));
-        return formatMenuCategoryRow(menuCategory);
+        return formatRecommendRow(OutputMessage.MENU_RECOMMEND_CATEGORY_ROW.toString(), menuCategory);
     }
 
-    private String formatMenuCategoryRow(final String menuCategory) {
+    private String formatRecommendRow(final String row, final String menuCategory) {
         return String.join(OutputMessage.MENU_RECOMMEND_DELIMITER.toString(),
-                OutputMessage.MENU_RECOMMEND_CATEGORY_ROW.toString(), menuCategory);
+                row, menuCategory);
     }
 
     private void print(final Object message, final Object... values) {
