@@ -11,6 +11,10 @@ public class OutputView {
         print(OutputMessage.INTRODUCE_COACH_NAMES_INPUT);
     }
 
+    public void printIntroduceCoachCantEatMenusInput(final String name) {
+        print(OutputMessage.INTRODUCE_COACH_CANT_EAT_MENUS_INPUT, name);
+    }
+
     private void print(final Object message, final Object... values) {
         System.out.println(formatMessage(message.toString(), values));
     }
