@@ -19,44 +19,55 @@ public class RecommendMenuMachine {
         this.shuffleFunction = shuffleFunction;
     }
 
-    public List<MenuCategory> recommendCategories() {
-        List<MenuCategory> recommendCategories = new ArrayList<>();
-        while (recommendCategories.size() < RECOMMEND_COUNT) {
-            recommendValidMenuCategory(recommendCategories);
+    public List<MenuCategory> recommendLaunch(final List<Coach> coaches) {
+        List<MenuCategory> categories = new ArrayList<>();
+        while (!isAllCoachRecommendComplete(coaches)){
+            MenuCategory menuCategory = recommendCategory(categories);
+            coaches.forEach(coach -> recommendMenus(coach, menuCategory));
         }
-        return recommendCategories;
+        return categories;
     }
 
-    private MenuCategory recommendCategory() {
+    private boolean isAllCoachRecommendComplete(final List<Coach> coaches) {
+        return coaches.stream()
+                .filter(coach -> coach.isRecommendMenuComplete())
+                .count() == coaches.size();
+    }
+
+    private MenuCategory recommendCategory(List<MenuCategory> menuCategories) {
+        MenuCategory menuCategory = recommendValidMenuCategory(menuCategories);
+        menuCategories.add(menuCategory);
+        return menuCategory;
+    }
+
+    private MenuCategory recommendRandomCategory() {
         return MenuCategory.parseNumberToMenuCategory(numberGenerator.generate());
     }
 
-    private void recommendValidMenuCategory(final List<MenuCategory> menuCategories) {
-        MenuCategory menuCategory = recommendCategory();
-        while (calculateDuplicationCount(menuCategories, menuCategory) > RECOMMEND_CATEGORY_DUPLICATION_COUNT_MAX) {
-            menuCategory = recommendCategory();
+    private MenuCategory recommendValidMenuCategory(final List<MenuCategory> menuCategories) {
+        MenuCategory menuCategory = recommendRandomCategory();
+        while (!isValidDuplicationCount(menuCategories, menuCategory)) {
+            menuCategory = recommendRandomCategory();
         }
-        menuCategories.add(menuCategory);
+        return menuCategory;
     }
 
-    private int calculateDuplicationCount(final List<MenuCategory> menuCategories, final MenuCategory target) {
+    private boolean isValidDuplicationCount(final List<MenuCategory> menuCategories, final MenuCategory target) {
         return (int) menuCategories.stream()
                 .filter(menuCategory -> menuCategory == target)
-                .count();
+                .count() < RECOMMEND_CATEGORY_DUPLICATION_COUNT_MAX;
     }
 
-    public void recommendMenus(final Coach coach, final List<MenuCategory> menuCategories) {
-        while (!coach.isRecommendMenuComplete()) {
-            recommendValidMenu(coach, menuCategories);
-        }
+    private void recommendMenus(final Coach coach, final MenuCategory menuCategory) {
+        recommendValidMenu(coach, menuCategory);
     }
 
-    private void recommendValidMenu(final Coach coach, final List<MenuCategory> menuCategory) {
-        MenuCategory todayCategory = coach.getTodayCategory(menuCategory);
-        Menu menu = recommendMenu(todayCategory);
-        if (coach.isValidMenu(menu)) {
-            coach.recommendMenu(menu);
+    private void recommendValidMenu(final Coach coach, final MenuCategory menuCategory) {
+        Menu menu = recommendMenu(menuCategory);
+        while (!coach.isValidMenu(menu)) {
+            menu = recommendMenu(menuCategory);
         }
+        coach.recommendMenu(menu);
     }
 
     private String recommendRandomMenu(final MenuCategory menuCategory) {

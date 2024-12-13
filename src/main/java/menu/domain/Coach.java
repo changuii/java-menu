@@ -9,7 +9,7 @@ import menu.enums.MenuCategory;
 public class Coach {
     private static final int COACH_NAME_LENGTH_MIN = 2;
     private static final int COACH_NAME_LENGTH_MAX = 4;
-    private static final int RECOMMEND_MENU_COUNT = 7;
+    private static final int RECOMMEND_MENU_COUNT = 5;
     private final String name;
     private final List<Menu> cantEatMenus;
     private final List<Menu> recommendMenus;
@@ -41,10 +41,6 @@ public class Coach {
 
     public boolean isRecommendMenuComplete() {
         return recommendMenus.size() == RECOMMEND_MENU_COUNT;
-    }
-
-    public MenuCategory getTodayCategory(final List<MenuCategory> categories) {
-        return categories.get(recommendMenus.size());
     }
 
     public String getName() {

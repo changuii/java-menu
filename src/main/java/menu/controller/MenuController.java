@@ -53,9 +53,7 @@ public class MenuController {
     }
 
     private List<MenuCategory> recommendMenus(final List<Coach> coaches) {
-        List<MenuCategory> categories = recommendMenuMachine.recommendCategories();
-        coaches.forEach(coach -> recommendMenuMachine.recommendMenus(coach, categories));
-        return categories;
+        return recommendMenuMachine.recommendLaunch(coaches);
     }
 
     private void outputRecommendResult(final List<Coach> coaches, final List<MenuCategory> menuCategories) {
