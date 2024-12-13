@@ -30,6 +30,10 @@ public class OutputView {
         print(OutputMessage.MENU_RECOMMEND_COMPLETE);
     }
 
+    public void printErrorMessage(final IllegalArgumentException customException) {
+        print(customException.getMessage());
+    }
+
     private String formatMenuCategories(final List<MenuCategory> menuCategories) {
         String menuCategory = menuCategories.stream()
                 .map(MenuCategory::getName)
