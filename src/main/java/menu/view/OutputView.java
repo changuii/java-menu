@@ -15,6 +15,10 @@ public class OutputView {
         print(OutputMessage.INTRODUCE_COACH_CANT_EAT_MENUS_INPUT, name);
     }
 
+    public void printMenuRecommendHeader() {
+        print(OutputMessage.MENU_RECOMMEND_HEADER);
+    }
+
     private void print(final Object message, final Object... values) {
         System.out.println(formatMessage(message.toString(), values));
     }
