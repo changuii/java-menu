@@ -15,4 +15,9 @@ public class MenuController {
     public void run() {
         outputView.printIntroduceService();
     }
+
+    private void inputCoachNames() {
+        outputView.printIntroduceCoachNamesInput();
+        inputView.readCoachNames();
+    }
 }
