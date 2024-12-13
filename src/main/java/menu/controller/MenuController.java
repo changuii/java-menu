@@ -10,6 +10,6 @@ public class MenuController {
     }
 
     public void run() {
-        inputView.readCoachNames();
+        inputView.readCoachCantEatMenu();
     }
 }
