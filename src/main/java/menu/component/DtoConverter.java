@@ -2,13 +2,15 @@ package menu.component;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import menu.domain.Coach;
 import menu.dto.CoachDto;
+import menu.enums.Menu;
 
 public class DtoConverter {
-    public List<Coach> namesToCoaches(final List<String> coachNames) {
-        return coachNames.stream()
-                .map(Coach::from)
+    public List<Coach> convertCoaches(final List<String> coachNames, final List<List<Menu>> cantEatMenus) {
+        return IntStream.range(0, coachNames.size())
+                .mapToObj(i -> Coach.of(coachNames.get(i), cantEatMenus.get(i)))
                 .collect(Collectors.toList());
     }
 

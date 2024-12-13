@@ -13,7 +13,7 @@ public enum MenuCategory {
     private String name;
     private int index;
 
-    MenuCategory(final String name, final int number) {
+    MenuCategory(final String name, final int index) {
         this.name = name;
         this.index = index;
     }

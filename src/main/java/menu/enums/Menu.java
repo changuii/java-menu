@@ -77,9 +77,10 @@ public enum Menu {
                         () -> new IllegalArgumentException(ErrorMessage.COACH_CANT_EAT_MENUS_INVALID.getMessage()));
     }
 
-    public static List<Menu> getMenusByCategories(final MenuCategory menuCategory) {
+    public static List<String> getMenusByCategories(final MenuCategory menuCategory) {
         return Arrays.stream(values())
                 .filter(menu -> menu.category == menuCategory)
+                .map(menu -> menu.getName())
                 .collect(Collectors.toList());
     }
 

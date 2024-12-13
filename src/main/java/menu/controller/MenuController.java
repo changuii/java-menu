@@ -1,9 +1,11 @@
 package menu.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import menu.component.DtoConverter;
 import menu.domain.Coach;
 import menu.domain.RecommendMenuMachine;
+import menu.enums.Menu;
 import menu.enums.MenuCategory;
 import menu.handler.RetryHandler;
 import menu.view.InputView;
@@ -28,17 +30,38 @@ public class MenuController {
     public void run() {
         outputView.printIntroduceService();
         List<Coach> coaches = retryHandler.retryUntilNotException(this::inputCoaches, outputView::printErrorMessage);
-        recommendMenus(coaches);
+        List<MenuCategory> categories = recommendMenus(coaches);
+        outputRecommendResult(coaches, categories);
     }
 
     private List<Coach> inputCoaches() {
         outputView.printIntroduceCoachNamesInput();
         List<String> coachNames = inputView.readCoachNames();
-        return dtoConverter.namesToCoaches(coachNames);
+        List<List<Menu>> coachesCantEatMenus = inputCoachesCantEatMenus(coachNames);
+        return dtoConverter.convertCoaches(coachNames, coachesCantEatMenus);
     }
 
-    private void recommendMenus(final List<Coach> coaches) {
+    private List<List<Menu>> inputCoachesCantEatMenus(final List<String> coachNames) {
+        return coachNames.stream()
+                .map(this::inputCoachCantEatMenus)
+                .collect(Collectors.toList());
+    }
+
+    private List<Menu> inputCoachCantEatMenus(final String coachName) {
+        outputView.printIntroduceCoachCantEatMenusInput(coachName);
+        return inputView.readCoachCantEatMenu();
+    }
+
+    private List<MenuCategory> recommendMenus(final List<Coach> coaches) {
         List<MenuCategory> categories = recommendMenuMachine.recommendCategories();
         coaches.forEach(coach -> recommendMenuMachine.recommendMenus(coach, categories));
+        return categories;
+    }
+
+    private void outputRecommendResult(final List<Coach> coaches, final List<MenuCategory> menuCategories) {
+        outputView.printMenuRecommendHeader();
+        outputView.printMenuCategories(menuCategories);
+        outputView.printCoaches(dtoConverter.convertCoachDtos(coaches));
+        outputView.printMenuRecommendComplete();
     }
 }

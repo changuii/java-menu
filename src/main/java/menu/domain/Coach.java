@@ -14,15 +14,15 @@ public class Coach {
     private final List<Menu> cantEatMenus;
     private final List<Menu> recommendMenus;
 
-    private Coach(final String name) {
+    private Coach(final String name, final List<Menu> cantEatMenus) {
         validateName(name);
         this.name = name;
-        this.cantEatMenus = new ArrayList<>();
+        this.cantEatMenus = cantEatMenus;
         this.recommendMenus = new ArrayList<>();
     }
 
-    public static Coach from(final String name) {
-        return new Coach(name);
+    public static Coach of(final String name, final List<Menu> cantEatMenus) {
+        return new Coach(name, cantEatMenus);
     }
 
     private void validateName(final String name) {
@@ -32,11 +32,11 @@ public class Coach {
     }
 
     public void recommendMenu(final Menu menu) {
-        this.recommendMenu(menu);
+        this.recommendMenus.add(menu);
     }
 
     public boolean isValidMenu(final Menu menu) {
-        return !cantEatMenus.contains(menu);
+        return !cantEatMenus.contains(menu) && !recommendMenus.contains(menu);
     }
 
     public boolean isRecommendMenuComplete() {

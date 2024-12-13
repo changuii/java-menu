@@ -13,14 +13,17 @@ public class OutputView {
     }
 
     public void printIntroduceCoachNamesInput() {
+        printLineBreak();
         print(OutputMessage.INTRODUCE_COACH_NAMES_INPUT);
     }
 
     public void printIntroduceCoachCantEatMenusInput(final String name) {
+        printLineBreak();
         print(OutputMessage.INTRODUCE_COACH_CANT_EAT_MENUS_INPUT, name);
     }
 
     public void printMenuRecommendHeader() {
+        printLineBreak();
         print(OutputMessage.MENU_RECOMMEND_HEADER);
     }
 
@@ -44,6 +47,7 @@ public class OutputView {
     }
 
     public void printMenuRecommendComplete() {
+        printLineBreak();
         print(OutputMessage.MENU_RECOMMEND_COMPLETE);
     }
 
@@ -69,5 +73,9 @@ public class OutputView {
 
     private String formatMessage(final Object formatMessage, final Object... values) {
         return String.format(formatMessage.toString(), values);
+    }
+
+    private void printLineBreak() {
+        System.out.print(System.lineSeparator());
     }
 }

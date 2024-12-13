@@ -27,14 +27,14 @@ public class RecommendMenuMachine {
         return recommendCategories;
     }
 
-    private MenuCategory recommendeCategory() {
+    private MenuCategory recommendCategory() {
         return MenuCategory.parseNumberToMenuCategory(numberGenerator.generate());
     }
 
     private void recommendValidMenuCategory(final List<MenuCategory> menuCategories) {
-        MenuCategory menuCategory = recommendeCategory();
+        MenuCategory menuCategory = recommendCategory();
         while (calculateDuplicationCount(menuCategories, menuCategory) > RECOMMEND_CATEGORY_DUPLICATION_COUNT_MAX) {
-            menuCategory = recommendeCategory();
+            menuCategory = recommendCategory();
         }
         menuCategories.add(menuCategory);
     }
@@ -59,7 +59,11 @@ public class RecommendMenuMachine {
         }
     }
 
-    private Menu recommendMenu(final MenuCategory menuCategory) {
+    private String recommendRandomMenu(final MenuCategory menuCategory) {
         return shuffleFunction.shuffle(Menu.getMenusByCategories(menuCategory)).get(0);
+    }
+
+    private Menu recommendMenu(final MenuCategory menuCategory) {
+        return Menu.parseMenu(recommendRandomMenu(menuCategory));
     }
 }
