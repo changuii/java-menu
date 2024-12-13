@@ -1,6 +1,8 @@
 package menu.enums;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public enum Menu {
     // 일식
@@ -73,6 +75,12 @@ public enum Menu {
                 .findAny()
                 .orElseThrow(
                         () -> new IllegalArgumentException(ErrorMessage.COACH_CANT_EAT_MENUS_INVALID.getMessage()));
+    }
+
+    public static List<Menu> getMenusByCategories(final MenuCategory menuCategory) {
+        return Arrays.stream(values())
+                .filter(menu -> menu.category == menuCategory)
+                .collect(Collectors.toList());
     }
 
 }
