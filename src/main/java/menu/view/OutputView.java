@@ -26,6 +26,10 @@ public class OutputView {
         print(OutputMessage.MENU_RECOMMEND_BRACKET, formatMenuCategories(menuCategories));
     }
 
+    public void printMenuRecommendComplete() {
+        print(OutputMessage.MENU_RECOMMEND_COMPLETE);
+    }
+
     private String formatMenuCategories(final List<MenuCategory> menuCategories) {
         String menuCategory = menuCategories.stream()
                 .map(MenuCategory::getName)

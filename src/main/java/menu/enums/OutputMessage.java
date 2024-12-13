@@ -10,7 +10,8 @@ public enum OutputMessage {
     ),
     MENU_RECOMMEND_CATEGORY_ROW("카테고리"),
     MENU_RECOMMEND_DELIMITER(" | "),
-    MENU_RECOMMEND_BRACKET("[ %s ]");
+    MENU_RECOMMEND_BRACKET("[ %s ]"),
+    MENU_RECOMMEND_COMPLETE("추천을 완료했습니다.");
 
     private final String message;
 
@@ -22,5 +23,5 @@ public enum OutputMessage {
     public String toString() {
         return message;
     }
-}
+    }
 
