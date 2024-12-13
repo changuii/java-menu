@@ -20,6 +20,7 @@ public class InputValidator {
 
     public void validateCoachNames(final List<String> coachNames) {
         validateCoachCountRange(coachNames);
+        validateCoachNameDuplication(coachNames);
         coachNames.forEach(this::validateCoachNameLengthSize);
     }
 
@@ -31,6 +32,12 @@ public class InputValidator {
 
     private void validateCoachNameLengthSize(final String coachName) {
         if (coachName.length() < COACH_NAME_LENGTH_MIN || COACH_NAME_LENGTH_MAX < coachName.length()) {
+            throw new IllegalArgumentException(ErrorMessage.COACH_NAMES_INVALID.getMessage());
+        }
+    }
+
+    private void validateCoachNameDuplication(final List<String> coachNames) {
+        if (coachNames.stream().distinct().count() != coachNames.size()) {
             throw new IllegalArgumentException(ErrorMessage.COACH_NAMES_INVALID.getMessage());
         }
     }
